@@ -5,6 +5,7 @@ const API = Object.freeze({
   ENDPOINT: Object.freeze({
     TRENDING: '/trending/movie/day',
     SEARCH_MOVIE: '/search/movie',
+    MOVIE_DETAILS: '/movie',
   }),
 });
 
