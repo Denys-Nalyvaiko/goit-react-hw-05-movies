@@ -3,6 +3,8 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import STATUS from 'js/statusConstants';
 import fetchSearchMovies from 'api/fetchSearchMovies';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
+import stopper from '../../images/stopper_cat_poster.jpg';
+import API from 'api/constants';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -63,14 +65,21 @@ const Movies = () => {
       {status === STATUS.PENDING && <p>Loading...</p>}
 
       {status === STATUS.RESOLVED && (
-        <ul>
-          {movies.map(({ id, title }) => (
-            <li key={id}>
-              <Link to={`${id}`} state={{ from: location }}>
-                {title}
-              </Link>
-            </li>
-          ))}
+        <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+          {movies.map(({ id, title, poster_path }) => {
+            const imageSrc = poster_path
+              ? API.IMAGE_SRC + poster_path
+              : stopper;
+
+            return (
+              <li key={id}>
+                <Link to={`${id}`} state={{ from: location }}>
+                  <img src={imageSrc} alt={title} height="200" />
+                  <p>{title}</p>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       )}
 

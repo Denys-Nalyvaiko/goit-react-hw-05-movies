@@ -4,6 +4,7 @@ import API from 'api/constants';
 import fetchMovieDetails from 'api/fetchMovieDetails';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
+import stopper from '../../images/stopper_cat_poster.jpg';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(false);
@@ -35,7 +36,7 @@ const MovieDetails = () => {
   }, [movieId]);
 
   const { title, vote_average, overview, genres, poster_path } = movie;
-  const imageSrc = API.IMAGE_SRC + poster_path;
+  const imageSrc = poster_path ? API.IMAGE_SRC + poster_path : stopper;
 
   return (
     <>
