@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
-import { Notify } from 'notiflix';
-import fetchSearchMovies from 'api/fetchSearchMovies';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import STATUS from 'js/statusConstants';
+import fetchSearchMovies from 'api/fetchSearchMovies';
+import checkIfErrorNotified from 'js/checkIfErrorNotified';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [status, setStatus] = useState(STATUS.IDDLE);
+  const isErrorNotify = useRef(false);
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
-  const location = useLocation();
 
   useEffect(() => {
     if (!query) {
@@ -16,16 +18,24 @@ const Movies = () => {
       return;
     }
 
-    setIsLoading(true);
+    setStatus(STATUS.PENDING);
 
     const processSearchMovies = async () => {
       try {
         const data = await fetchSearchMovies(query);
         setMovies(data.results);
-      } catch (error) {
-        Notify.failure(error.message);
-      } finally {
-        setIsLoading(false);
+        setStatus(STATUS.RESOLVED);
+
+        if (!data.results.length) {
+          setStatus(STATUS.REJECTED);
+        }
+      } catch ({ message }) {
+        isErrorNotify.current = checkIfErrorNotified(
+          isErrorNotify.current,
+          message
+        );
+
+        setStatus(STATUS.REJECTED);
       }
     };
 
@@ -49,9 +59,10 @@ const Movies = () => {
         <input type="text" name="query" />
         <button type="submit">Search</button>
       </form>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : movies.length ? (
+
+      {status === STATUS.PENDING && <p>Loading...</p>}
+
+      {status === STATUS.RESOLVED && (
         <ul>
           {movies.map(({ id, title }) => (
             <li key={id}>
@@ -61,9 +72,9 @@ const Movies = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        <p>Movies with this query are not exist</p>
       )}
+
+      {status === STATUS.REJECTED && <p>We don't have any movie</p>}
     </>
   );
 };

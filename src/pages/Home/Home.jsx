@@ -1,26 +1,34 @@
 import { useEffect, useRef, useState } from 'react';
-import { Notify } from 'notiflix';
 import fetchTrendingMovies from 'api/fetchTrendingMovies';
 import { Link, useLocation } from 'react-router-dom';
+import checkIfErrorNotified from 'js/checkIfErrorNotified';
+import STATUS from 'js/statusConstants';
 
 const Home = () => {
-  const [movies, setMovies] = useState(false);
-  const [isLodaing, setIsLoading] = useState(true);
+  const [movies, setMovies] = useState([]);
+  const [status, setStatus] = useState(STATUS.IDDLE);
   const isErrorNotify = useRef(false);
   const location = useLocation();
 
   useEffect(() => {
+    setStatus(STATUS.PENDING);
+
     const processTrendingMovies = async () => {
       try {
         const { results } = await fetchTrendingMovies();
         setMovies(results);
-      } catch (error) {
-        if (!isErrorNotify.current) {
-          isErrorNotify.current = true;
-          Notify.failure(error.message);
+        setStatus(STATUS.RESOLVED);
+
+        if (!results.length) {
+          setStatus(STATUS.REJECTED);
         }
-      } finally {
-        setIsLoading(false);
+      } catch ({ message }) {
+        isErrorNotify.current = checkIfErrorNotified(
+          isErrorNotify.current,
+          message
+        );
+
+        setStatus(STATUS.REJECTED);
       }
     };
 
@@ -30,9 +38,10 @@ const Home = () => {
   return (
     <>
       <h1>Trending Today</h1>
-      {isLodaing ? (
-        <p>Loading...</p>
-      ) : movies ? (
+
+      {status === STATUS.PENDING && <p>Loading...</p>}
+
+      {status === STATUS.RESOLVED && (
         <ul>
           {movies.map(({ id, title }) => (
             <li key={id}>
@@ -42,9 +51,9 @@ const Home = () => {
             </li>
           ))}
         </ul>
-      ) : (
-        <p>Movies trending are not exist</p>
       )}
+
+      {status === STATUS.REJECTED && <p>We don't have any movies ternding</p>}
     </>
   );
 };

@@ -1,29 +1,33 @@
-import { Notify } from 'notiflix';
 import { useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import API from 'api/constants';
 import fetchMovieDetails from 'api/fetchMovieDetails';
+import checkIfErrorNotified from 'js/checkIfErrorNotified';
+import STATUS from 'js/statusConstants';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState(STATUS.IDDLE);
   const { movieId } = useParams();
   const location = useLocation();
   const backLinkRef = useRef(location.state?.from ?? '/');
   const isErrorNotify = useRef(false);
 
   useEffect(() => {
+    setStatus(STATUS.PENDING);
+
     const processMovieDetails = async () => {
       try {
         const data = await fetchMovieDetails(movieId);
         setMovie(data);
-      } catch (error) {
-        if (!isErrorNotify.current) {
-          isErrorNotify.current = true;
-          Notify.failure(error.message);
-        }
-      } finally {
-        setIsLoading(false);
+        setStatus(STATUS.RESOLVED);
+      } catch ({ message }) {
+        isErrorNotify.current = checkIfErrorNotified(
+          isErrorNotify.current,
+          message
+        );
+
+        setStatus(STATUS.REJECTED);
       }
     };
 
@@ -36,9 +40,10 @@ const MovieDetails = () => {
   return (
     <>
       <Link to={backLinkRef.current}>Go back</Link>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : movie ? (
+
+      {status === STATUS.PENDING && <p>Loading...</p>}
+
+      {status === STATUS.RESOLVED && (
         <div>
           <div style={{ display: 'flex' }}>
             <div>
@@ -51,7 +56,7 @@ const MovieDetails = () => {
               <p>{overview}</p>
               <p>Genres</p>
               <ul>
-                {genres.map(({ id, name }) => (
+                {genres?.map(({ id, name }) => (
                   <li key={id}>
                     <p>{name}</p>
                   </li>
@@ -63,9 +68,9 @@ const MovieDetails = () => {
           <Link to="reviews">Reviews</Link>
           <Outlet />
         </div>
-      ) : (
-        <p>Movie details are not exist</p>
       )}
+
+      {status === STATUS.REJECTED && <p>We don't have movie details</p>}
     </>
   );
 };
