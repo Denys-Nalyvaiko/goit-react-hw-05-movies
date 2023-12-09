@@ -1,3 +1,4 @@
+import API from 'api/constants';
 import fetchMovieDetails from 'api/fetchMovieDetails';
 import { Notify } from 'notiflix';
 import { useEffect, useRef, useState } from 'react';
@@ -12,7 +13,6 @@ const MovieDetails = () => {
     const processMovieDetails = async () => {
       try {
         const data = await fetchMovieDetails(movieId);
-        // console.log(data);
         setMovie(data);
       } catch (error) {
         if (!isErrorNotify.current) {
@@ -26,7 +26,7 @@ const MovieDetails = () => {
   }, [movieId]);
 
   const { title, vote_average, overview, genres, poster_path } = movie;
-  const imageSrc = 'https://image.tmdb.org/t/p/w500' + poster_path;
+  const imageSrc = API.IMAGE_SRC + poster_path;
 
   return (
     <>

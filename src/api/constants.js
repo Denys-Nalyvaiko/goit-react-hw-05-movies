@@ -6,7 +6,9 @@ const API = Object.freeze({
     TRENDING: '/trending/movie/day',
     SEARCH_MOVIE: '/search/movie',
     MOVIE_DETAILS: '/movie',
+    CREDITS: '/credits',
   }),
+  IMAGE_SRC: 'https://image.tmdb.org/t/p/w500',
 });
 
 export default API;
