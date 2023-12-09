@@ -12,7 +12,6 @@ const Reviews = () => {
     const processMovieReviews = async () => {
       try {
         const { results } = await fetchMovieReviews(movieId);
-        console.log(results);
         setReviews(results);
       } catch (error) {
         if (!isErrorNotify.current) {

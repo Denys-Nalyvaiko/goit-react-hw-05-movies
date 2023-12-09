@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Notify } from 'notiflix';
 import fetchSearchMovies from 'api/fetchSearchMovies';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
+  const location = useLocation();
 
   useEffect(() => {
     if (!query) {
@@ -46,7 +47,9 @@ const Movies = () => {
       <ul>
         {movies.map(({ id, title }) => (
           <li key={id}>
-            <Link to={`${id}`}>{title}</Link>
+            <Link to={`${id}`} state={{ from: location }}>
+              {title}
+            </Link>
           </li>
         ))}
       </ul>

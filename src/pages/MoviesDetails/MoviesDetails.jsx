@@ -1,13 +1,15 @@
-import API from 'api/constants';
-import fetchMovieDetails from 'api/fetchMovieDetails';
 import { Notify } from 'notiflix';
 import { useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import API from 'api/constants';
+import fetchMovieDetails from 'api/fetchMovieDetails';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(false);
-  const isErrorNotify = useRef(false);
   const { movieId } = useParams();
+  const location = useLocation();
+  const backLinkRef = useRef(location.state?.from ?? '/');
+  const isErrorNotify = useRef(false);
 
   useEffect(() => {
     const processMovieDetails = async () => {
@@ -30,6 +32,7 @@ const MovieDetails = () => {
 
   return (
     <>
+      <Link to={backLinkRef.current}>Go back</Link>
       {movie ? (
         <div>
           <div style={{ display: 'flex' }}>
