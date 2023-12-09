@@ -1,5 +1,5 @@
 import { Notify } from 'notiflix';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import API from 'api/constants';
 import fetchMovieCast from 'api/fetchMovieCast';
@@ -8,6 +8,7 @@ import stopper from '../../images/stopper_cat.jpg';
 const Cast = () => {
   const [cast, setCast] = useState(false);
   const { movieId } = useParams();
+  const isErrorNotify = useRef(false);
 
   useEffect(() => {
     const processMovieCast = async () => {
@@ -15,7 +16,10 @@ const Cast = () => {
         const data = await fetchMovieCast(movieId);
         setCast(data.cast);
       } catch (error) {
-        Notify.failure(error.message);
+        if (!isErrorNotify.current) {
+          isErrorNotify.current = true;
+          Notify.failure(error.message);
+        }
       }
     };
 
@@ -24,7 +28,7 @@ const Cast = () => {
 
   return (
     <>
-      <h2>Cast</h2>
+      <h3>Cast</h3>
       {cast ? (
         <ul style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
           {cast.map(({ id, name, character, profile_path }) => {

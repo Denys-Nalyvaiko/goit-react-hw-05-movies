@@ -3,7 +3,7 @@ import API from './constants';
 
 const fetchTrendingMovies = async () => {
   const responce = await instance.get(
-    `${API.ENDPOINT.TRENDING}?language=en-US`
+    `${API.ENDPOINT.TRENDING}?${API.QUERY.LANGUAGE}`
   );
 
   return responce.data;

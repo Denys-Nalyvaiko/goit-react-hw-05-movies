@@ -7,8 +7,12 @@ const API = Object.freeze({
     SEARCH_MOVIE: '/search/movie',
     MOVIE_DETAILS: '/movie',
     CREDITS: '/credits',
+    REVIEWS: '/reviews',
   }),
   IMAGE_SRC: 'https://image.tmdb.org/t/p/w500',
+  QUERY: Object.freeze({
+    LANGUAGE: 'language=en-US',
+  }),
 });
 
 export default API;
