@@ -6,6 +6,7 @@ import fetchMovieDetails from 'api/fetchMovieDetails';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const { movieId } = useParams();
   const location = useLocation();
   const backLinkRef = useRef(location.state?.from ?? '/');
@@ -21,6 +22,8 @@ const MovieDetails = () => {
           isErrorNotify.current = true;
           Notify.failure(error.message);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -33,7 +36,9 @@ const MovieDetails = () => {
   return (
     <>
       <Link to={backLinkRef.current}>Go back</Link>
-      {movie ? (
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : movie ? (
         <div>
           <div style={{ display: 'flex' }}>
             <div>
@@ -59,7 +64,7 @@ const MovieDetails = () => {
           <Outlet />
         </div>
       ) : (
-        <p>Movie details is not exist</p>
+        <p>Movie details are not exist</p>
       )}
     </>
   );

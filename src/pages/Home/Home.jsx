@@ -4,7 +4,8 @@ import fetchTrendingMovies from 'api/fetchTrendingMovies';
 import { Link, useLocation } from 'react-router-dom';
 
 const Home = () => {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(false);
+  const [isLodaing, setIsLoading] = useState(true);
   const isErrorNotify = useRef(false);
   const location = useLocation();
 
@@ -18,6 +19,8 @@ const Home = () => {
           isErrorNotify.current = true;
           Notify.failure(error.message);
         }
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -27,15 +30,21 @@ const Home = () => {
   return (
     <>
       <h1>Trending Today</h1>
-      <ul>
-        {movies.map(({ id, title }) => (
-          <li key={id}>
-            <Link to={`movies/${id}`} state={{ from: location }}>
-              {title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      {isLodaing ? (
+        <p>Loading...</p>
+      ) : movies ? (
+        <ul>
+          {movies.map(({ id, title }) => (
+            <li key={id}>
+              <Link to={`movies/${id}`} state={{ from: location }}>
+                {title}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Movies trending are not exist</p>
+      )}
     </>
   );
 };
