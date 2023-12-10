@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
 import API from 'api/constants';
 import fetchMovieDetails from 'api/fetchMovieDetails';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
-import stopper from '../../images/stopper_cat_poster.jpg';
+import stopper from '../images/stopper_cat_poster.jpg';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(false);
@@ -67,7 +67,9 @@ const MovieDetails = () => {
           </div>
           <Link to="cast">Cast</Link>
           <Link to="reviews">Reviews</Link>
-          <Outlet />
+          <Suspense fallback={<p>Loading...</p>}>
+            <Outlet />
+          </Suspense>
         </div>
       )}
 

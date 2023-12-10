@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import fetchTrendingMovies from 'api/fetchTrendingMovies';
 import { Link, useLocation } from 'react-router-dom';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
-import stopper from '../../images/stopper_cat_poster.jpg';
+import stopper from '../images/stopper_cat_poster.jpg';
 import API from 'api/constants';
 import STATUS from 'js/statusConstants';
 

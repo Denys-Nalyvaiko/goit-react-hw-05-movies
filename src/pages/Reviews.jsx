@@ -17,7 +17,6 @@ const Reviews = () => {
       try {
         const { results } = await fetchMovieReviews(movieId);
         setReviews(results);
-        console.log(results);
         setStatus(STATUS.RESOLVED);
 
         if (!results.length) {

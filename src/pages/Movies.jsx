@@ -3,7 +3,7 @@ import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import STATUS from 'js/statusConstants';
 import fetchSearchMovies from 'api/fetchSearchMovies';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
-import stopper from '../../images/stopper_cat_poster.jpg';
+import stopper from '../images/stopper_cat_poster.jpg';
 import API from 'api/constants';
 
 const Movies = () => {

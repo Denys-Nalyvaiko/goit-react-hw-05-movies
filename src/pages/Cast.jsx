@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import API from 'api/constants';
 import fetchMovieCast from 'api/fetchMovieCast';
-import stopper from '../../images/stopper_cat.jpg';
+import stopper from '../images/stopper_cat.jpg';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
 
