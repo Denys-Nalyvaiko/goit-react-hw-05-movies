@@ -4,6 +4,7 @@ import fetchMovieCast from 'api/fetchMovieCast';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
 import CastList from 'components/CastList/CastList';
+import { CastContainer, CastTitle } from 'css/containers/CastContainer';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
@@ -37,8 +38,8 @@ const Cast = () => {
   }, [movieId]);
 
   return (
-    <>
-      <h3>Cast</h3>
+    <CastContainer>
+      <CastTitle>Cast</CastTitle>
 
       {status === STATUS.PENDING && <p>Loading...</p>}
 
@@ -47,7 +48,7 @@ const Cast = () => {
       {status === STATUS.REJECTED && (
         <p>We don't have any cast for this movie</p>
       )}
-    </>
+    </CastContainer>
   );
 };
 

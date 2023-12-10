@@ -4,6 +4,12 @@ import fetchSearchMovies from 'api/fetchSearchMovies';
 import STATUS from 'js/statusConstants';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import MoviesList from 'components/MoviesList/MoviesList';
+import {
+  MoviesContainer,
+  MoviesForm,
+  MoviesInput,
+  MoviesSubmitButton,
+} from 'css/containers/MoviesContainer';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -54,12 +60,12 @@ const Movies = () => {
   };
 
   return (
-    <>
+    <MoviesContainer>
       <h2>Movies</h2>
-      <form action="submit" onSubmit={handleSubmitForm}>
-        <input type="text" name="query" />
-        <button type="submit">Search</button>
-      </form>
+      <MoviesForm action="submit" onSubmit={handleSubmitForm}>
+        <MoviesInput type="text" name="query" />
+        <MoviesSubmitButton type="submit">Search</MoviesSubmitButton>
+      </MoviesForm>
 
       {status === STATUS.PENDING && <p>Loading...</p>}
 
@@ -68,7 +74,7 @@ const Movies = () => {
       )}
 
       {status === STATUS.REJECTED && <p>We don't have any movie</p>}
-    </>
+    </MoviesContainer>
   );
 };
 

@@ -3,6 +3,12 @@ import { useParams } from 'react-router-dom';
 import fetchMovieReviews from 'api/fetchMovieReviews';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
+import {
+  ReviewsContainer,
+  ReviewsItemContainer,
+  ReviewsListContainer,
+  ReviewsTitle,
+} from 'css/containers/ReviewsContainer';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -36,26 +42,28 @@ const Reviews = () => {
   }, [movieId]);
 
   return (
-    <>
-      <h3>Reviews</h3>
+    <ReviewsContainer>
+      <ReviewsTitle>Reviews</ReviewsTitle>
 
       {status === STATUS.PENDING && <p>Loading...</p>}
 
       {status === STATUS.RESOLVED && (
-        <ul>
+        <ReviewsListContainer>
           {reviews.map(({ id, author, content }) => (
-            <li key={id}>
-              <p>Author: {author}</p>
+            <ReviewsItemContainer key={id}>
+              <p>
+                <b>Author: {author}</b>
+              </p>
               <p>{content}</p>
-            </li>
+            </ReviewsItemContainer>
           ))}
-        </ul>
+        </ReviewsListContainer>
       )}
 
       {status === STATUS.REJECTED && (
         <p>We don't have any reviews for this movie</p>
       )}
-    </>
+    </ReviewsContainer>
   );
 };
 

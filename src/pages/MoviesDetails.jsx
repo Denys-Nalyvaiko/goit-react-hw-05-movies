@@ -1,9 +1,15 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import fetchMovieDetails from 'api/fetchMovieDetails';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
 import MovieDetailsInfo from 'components/MovieDetailsInfo/MovieDetailsInfo';
+import {
+  MovieDetailsBackLink,
+  MovieDetailsContainer,
+  MovieDetailsLink,
+  MovieDetailsLinkContainer,
+} from 'css/containers/MoviesDetailsContainer';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(false);
@@ -35,16 +41,20 @@ const MovieDetails = () => {
   }, [movieId]);
 
   return (
-    <>
-      <Link to={backLinkRef.current}>Go back</Link>
+    <MovieDetailsContainer>
+      <MovieDetailsBackLink to={backLinkRef.current}>
+        Go back
+      </MovieDetailsBackLink>
 
       {status === STATUS.PENDING && <p>Loading...</p>}
 
       {status === STATUS.RESOLVED && (
         <div>
           <MovieDetailsInfo movie={movie} />
-          <Link to="cast">Cast</Link>
-          <Link to="reviews">Reviews</Link>
+          <MovieDetailsLinkContainer>
+            <MovieDetailsLink to="cast">Cast</MovieDetailsLink>
+            <MovieDetailsLink to="reviews">Reviews</MovieDetailsLink>
+          </MovieDetailsLinkContainer>
           <Suspense fallback={<p>Loading...</p>}>
             <Outlet />
           </Suspense>
@@ -52,7 +62,7 @@ const MovieDetails = () => {
       )}
 
       {status === STATUS.REJECTED && <p>We don't have movie details</p>}
-    </>
+    </MovieDetailsContainer>
   );
 };
 

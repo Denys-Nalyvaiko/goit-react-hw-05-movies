@@ -1,20 +1,26 @@
 import { Suspense } from 'react';
+import {
+  HeaderContainer,
+  HeaderNavLink,
+  HeaderNavigation,
+  MainContainer,
+} from './SharedLayoutStyled';
 
-const { NavLink, Outlet } = require('react-router-dom');
+const { Outlet } = require('react-router-dom');
 
 const SharedLayout = () => (
   <div>
-    <header>
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/movies">Movies</NavLink>
-      </nav>
-    </header>
-    <main>
+    <HeaderContainer>
+      <HeaderNavigation>
+        <HeaderNavLink to="/">Home</HeaderNavLink>
+        <HeaderNavLink to="/movies">Movies</HeaderNavLink>
+      </HeaderNavigation>
+    </HeaderContainer>
+    <MainContainer>
       <Suspense fallback={<p>Loading...</p>}>
         <Outlet />
       </Suspense>
-    </main>
+    </MainContainer>
   </div>
 );
 

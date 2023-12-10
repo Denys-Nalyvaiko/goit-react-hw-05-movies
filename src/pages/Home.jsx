@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
 import TrendingMoviesList from 'components/TrendingMoviesList/TrendingMoviesList';
+import { HomeContainer } from 'css/containers/HomeContainer';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -37,7 +38,7 @@ const Home = () => {
   }, []);
 
   return (
-    <>
+    <HomeContainer>
       <h1>Trending Today</h1>
 
       {status === STATUS.PENDING && <p>Loading...</p>}
@@ -47,7 +48,7 @@ const Home = () => {
       )}
 
       {status === STATUS.REJECTED && <p>We don't have any movies ternding</p>}
-    </>
+    </HomeContainer>
   );
 };
 

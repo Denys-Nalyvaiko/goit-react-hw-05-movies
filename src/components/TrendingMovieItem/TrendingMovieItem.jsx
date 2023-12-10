@@ -1,12 +1,13 @@
 import { Link } from 'react-router-dom';
+import { TrendingItem, TrendingTitle } from './TrendingMovieItemStyled';
 
 const TrendingMovieItem = ({ location, id, imageSrc, title }) => (
-  <li>
+  <TrendingItem>
     <Link to={`movies/${id}`} state={{ from: location }}>
-      <img src={imageSrc} alt={title} height="200" />
-      <p>{title}</p>
+      <img src={imageSrc} alt={title} width="250" />
+      <TrendingTitle>{title}</TrendingTitle>
     </Link>
-  </li>
+  </TrendingItem>
 );
 
 export default TrendingMovieItem;
