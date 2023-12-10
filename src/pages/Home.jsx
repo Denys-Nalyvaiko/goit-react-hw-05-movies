@@ -5,6 +5,7 @@ import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
 import TrendingMoviesList from 'components/TrendingMoviesList/TrendingMoviesList';
 import { HomeContainer } from 'css/containers/HomeContainer';
+import Loader from 'components/Loader/Loader';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -41,7 +42,7 @@ const Home = () => {
     <HomeContainer>
       <h1>Trending Today</h1>
 
-      {status === STATUS.PENDING && <p>Loading...</p>}
+      {status === STATUS.PENDING && <Loader />}
 
       {status === STATUS.RESOLVED && (
         <TrendingMoviesList movies={movies} location={location} />

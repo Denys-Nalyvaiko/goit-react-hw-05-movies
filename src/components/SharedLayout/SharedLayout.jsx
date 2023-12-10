@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import Loader from 'components/Loader/Loader';
 import {
   HeaderContainer,
   HeaderNavLink,
@@ -17,7 +18,7 @@ const SharedLayout = () => (
       </HeaderNavigation>
     </HeaderContainer>
     <MainContainer>
-      <Suspense fallback={<p>Loading...</p>}>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
     </MainContainer>

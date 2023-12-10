@@ -6,6 +6,7 @@ export const MovieDetailsContainer = styled.section`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  width: 100%;
 `;
 
 export const MovieDetailsBackLink = styled(Link)`
@@ -33,4 +34,10 @@ export const MovieDetailsLinkContainer = styled.div`
   display: flex;
   gap: 16px;
   margin-bottom: 16px;
+`;
+
+export const MovieExtraInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

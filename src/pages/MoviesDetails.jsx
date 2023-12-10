@@ -9,7 +9,9 @@ import {
   MovieDetailsContainer,
   MovieDetailsLink,
   MovieDetailsLinkContainer,
+  MovieExtraInfoContainer,
 } from 'css/containers/MoviesDetailsContainer';
+import Loader from 'components/Loader/Loader';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState(false);
@@ -46,7 +48,7 @@ const MovieDetails = () => {
         Go back
       </MovieDetailsBackLink>
 
-      {status === STATUS.PENDING && <p>Loading...</p>}
+      {status === STATUS.PENDING && <Loader />}
 
       {status === STATUS.RESOLVED && (
         <div>
@@ -55,9 +57,11 @@ const MovieDetails = () => {
             <MovieDetailsLink to="cast">Cast</MovieDetailsLink>
             <MovieDetailsLink to="reviews">Reviews</MovieDetailsLink>
           </MovieDetailsLinkContainer>
-          <Suspense fallback={<p>Loading...</p>}>
-            <Outlet />
-          </Suspense>
+          <MovieExtraInfoContainer>
+            <Suspense fallback={<Loader />}>
+              <Outlet />
+            </Suspense>
+          </MovieExtraInfoContainer>
         </div>
       )}
 

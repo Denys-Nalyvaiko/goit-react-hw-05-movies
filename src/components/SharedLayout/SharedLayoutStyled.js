@@ -28,4 +28,7 @@ export const HeaderNavLink = styled(NavLink)`
 
 export const MainContainer = styled.main`
   padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

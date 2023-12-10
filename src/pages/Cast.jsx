@@ -5,6 +5,7 @@ import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
 import CastList from 'components/CastList/CastList';
 import { CastContainer, CastTitle } from 'css/containers/CastContainer';
+import Loader from 'components/Loader/Loader';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
@@ -41,7 +42,7 @@ const Cast = () => {
     <CastContainer>
       <CastTitle>Cast</CastTitle>
 
-      {status === STATUS.PENDING && <p>Loading...</p>}
+      {status === STATUS.PENDING && <Loader />}
 
       {status === STATUS.RESOLVED && <CastList cast={cast} />}
 

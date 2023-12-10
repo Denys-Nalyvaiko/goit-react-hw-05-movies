@@ -10,6 +10,7 @@ import {
   MoviesInput,
   MoviesSubmitButton,
 } from 'css/containers/MoviesContainer';
+import Loader from 'components/Loader/Loader';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -67,7 +68,7 @@ const Movies = () => {
         <MoviesSubmitButton type="submit">Search</MoviesSubmitButton>
       </MoviesForm>
 
-      {status === STATUS.PENDING && <p>Loading...</p>}
+      {status === STATUS.PENDING && <Loader />}
 
       {status === STATUS.RESOLVED && (
         <MoviesList movies={movies} location={location} />

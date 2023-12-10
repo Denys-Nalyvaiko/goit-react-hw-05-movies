@@ -5,7 +5,6 @@ export const MovieDetailsSectionContainer = styled.div`
   justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
-  gap: 20px;
   margin-bottom: 24px;
 `;
 

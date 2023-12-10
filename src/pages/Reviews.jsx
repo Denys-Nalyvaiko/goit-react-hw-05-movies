@@ -9,6 +9,7 @@ import {
   ReviewsListContainer,
   ReviewsTitle,
 } from 'css/containers/ReviewsContainer';
+import Loader from 'components/Loader/Loader';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
@@ -45,7 +46,7 @@ const Reviews = () => {
     <ReviewsContainer>
       <ReviewsTitle>Reviews</ReviewsTitle>
 
-      {status === STATUS.PENDING && <p>Loading...</p>}
+      {status === STATUS.PENDING && <Loader />}
 
       {status === STATUS.RESOLVED && (
         <ReviewsListContainer>
