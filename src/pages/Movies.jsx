@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import fetchSearchMovies from 'api/fetchSearchMovies';
 import STATUS from 'js/statusConstants';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
@@ -16,7 +16,6 @@ const Movies = () => {
   const [movies, setMovies] = useState([]);
   const [status, setStatus] = useState(STATUS.IDDLE);
   const isErrorNotify = useRef(false);
-  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') ?? '';
 
@@ -70,9 +69,7 @@ const Movies = () => {
 
       {status === STATUS.PENDING && <Loader />}
 
-      {status === STATUS.RESOLVED && (
-        <MoviesList movies={movies} location={location} />
-      )}
+      {status === STATUS.RESOLVED && <MoviesList movies={movies} />}
 
       {status === STATUS.REJECTED && <p>We don't have any movie</p>}
     </MoviesContainer>

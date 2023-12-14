@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import fetchTrendingMovies from 'api/fetchTrendingMovies';
-import { useLocation } from 'react-router-dom';
 import checkIfErrorNotified from 'js/checkIfErrorNotified';
 import STATUS from 'js/statusConstants';
-import TrendingMoviesList from 'components/TrendingMoviesList/TrendingMoviesList';
 import { HomeContainer } from 'css/containers/HomeContainer';
 import Loader from 'components/Loader/Loader';
+import MoviesList from 'components/MoviesList/MoviesList';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [status, setStatus] = useState(STATUS.IDDLE);
   const isErrorNotify = useRef(false);
-  const location = useLocation();
 
   useEffect(() => {
     setStatus(STATUS.PENDING);
@@ -44,9 +42,7 @@ const Home = () => {
 
       {status === STATUS.PENDING && <Loader />}
 
-      {status === STATUS.RESOLVED && (
-        <TrendingMoviesList movies={movies} location={location} />
-      )}
+      {status === STATUS.RESOLVED && <MoviesList movies={movies} />}
 
       {status === STATUS.REJECTED && <p>We don't have any movies ternding</p>}
     </HomeContainer>
