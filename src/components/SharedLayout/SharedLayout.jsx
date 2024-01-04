@@ -1,4 +1,5 @@
 import { Suspense } from 'react';
+import { Outlet } from 'react-router-dom';
 import Loader from 'components/Loader/Loader';
 import {
   HeaderContainer,
@@ -6,8 +7,6 @@ import {
   HeaderNavigation,
   MainContainer,
 } from './SharedLayoutStyled';
-
-const { Outlet } = require('react-router-dom');
 
 const SharedLayout = () => (
   <div>
